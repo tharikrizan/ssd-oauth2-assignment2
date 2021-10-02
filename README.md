@@ -14,3 +14,11 @@
 6. Start the frontend `npm run frontend`
 
 ### The current .env have the facebook app we use during development, it maybe a good idea to use a new one due to rate limiting imposed by facebook
+
+### If the existing FB credentials are being used, please use the following credentials
+- `swvgpgixtk_1633202433@tfbnw.net`
+- `vgddangymr_1633202433@tfbnw.net`
+- `lxjeniesfe_1633202433@tfbnw.net`
+- `open_imnvhbv_user@tfbnw.net`
+
+All of the above accounts has the same password: `%^H@he@#7*HWESDNsw@`
