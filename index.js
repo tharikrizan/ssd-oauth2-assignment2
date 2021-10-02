@@ -8,6 +8,9 @@ const logger = require("./services/logger");
 const port = process.env.PORT || 5000;
 const server = express();
 
+// connect to db
+require("./database")();
+
 server.use(morgan("dev"));
 
 // routes
