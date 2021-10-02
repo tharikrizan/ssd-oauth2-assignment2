@@ -11,7 +11,7 @@ const server = express();
 server.use(morgan("dev"));
 
 // routes
-server.use("/", require("./routes"));
+server.use("/api/v1/", require("./routes"));
 
 // error
 server.use(require("./services/errors"));
