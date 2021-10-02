@@ -18,7 +18,12 @@ async function writeNewMessage(id, accessToken, message) {
   );
 }
 
+async function getAllPosts(id, accessToken) {
+  return axios.get(`${graphUrl}/${[id]}/feed?access_token=${accessToken}`);
+}
+
 export default {
   getAllPages,
   writeNewMessage,
+  getAllPosts,
 };

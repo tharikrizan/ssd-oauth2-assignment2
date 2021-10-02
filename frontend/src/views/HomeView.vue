@@ -16,19 +16,32 @@
           @click.prevent="writeMessage(page.id, page.access_token)"
           variant="primary"
         >
-          Write a message</b-button
-        >
+          Write a message
+        </b-button>
 
-        <b-button @click="showDialog">
+        <b-button
+          class="ml-5"
+          @click="showDialog(page.id, page.access_token)"
+          variant="primary"
+        >
           Show Posts
         </b-button>
       </b-card>
     </div>
 
-    <b-modal id="bv-modal-example" hide-footer hide-title>
+    <b-modal id="bv-modal-example" hide-footer>
       <template #modal-title> Posts </template>
       <div class="d-block text-center">
-        <h3>Hello From This Modal!</h3>
+        <b-card
+          :title="post.message"
+          :sub-title="post.created_time"
+          v-for="post in posts"
+          :key="post.id"
+        >
+          <b-button class="mt-3" variant="outline-danger" block>
+            Delete
+          </b-button>
+        </b-card>
       </div>
       <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">
         Close Me
@@ -81,7 +94,7 @@ export default {
         },
         allowOutsideClick: () => !this.$swal.isLoading(),
       }).then((result) => {
-        if (result.value.data.id) {
+        if (result?.value?.data?.id) {
           this.$swal.fire({
             icon: "success",
             title: "Success",
@@ -91,8 +104,9 @@ export default {
         }
       });
     },
-    async showDialog() {
+    async showDialog(id, token) {
       this.$bvModal.show("bv-modal-example");
+      this.posts = (await Facebook.getAllPosts(id, token)).data.data;
     },
   },
 };
