@@ -1,23 +1,26 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/HomeView.vue";
+import LocalStorage from "../services/storage";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home,
+    meta: { requiresAuth: true },
   },
   {
-    path: "/error",
-    name: "Error",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Error.vue"),
+    path: "/oauth-redirect",
+    name: "oauthRedirect",
+    component: () => import("../views/OauthRedirect.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
   },
 ];
 
@@ -26,5 +29,24 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (isLoggedIn()) next();
+    else {
+      next({
+        name: "login",
+      });
+    }
+  } else {
+    if (isLoggedIn()) next({ name: "home" });
+    else next();
+  }
+});
+
+function isLoggedIn() {
+  const user = LocalStorage.getUser();
+  return user && user.facebookToken;
+}
 
 export default router;
