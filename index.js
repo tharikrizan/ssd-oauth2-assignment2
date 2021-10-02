@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 require("express-async-errors");
 require("dotenv").config();
 
@@ -11,6 +12,7 @@ const server = express();
 // connect to db
 require("./database")();
 
+server.use(cors());
 server.use(morgan("dev"));
 
 // routes

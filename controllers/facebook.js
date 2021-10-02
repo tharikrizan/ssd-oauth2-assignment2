@@ -55,7 +55,18 @@ async function graphApiRequest(path, method, params) {
  * @param {string} errorMessage
  */
 function redirectToErrorPage(res, errorMessage) {
-  return res.redirect(`${frontendUrl}/error?errorMessage=${errorMessage}`);
+  return res.redirect(
+    `${frontendUrl}/oauth-redirect?errorMessage=${errorMessage}`
+  );
+}
+
+/**
+ * Redirect to the success page in the frontend
+ * @param {import("express").Response} res
+ * @param {string} userId
+ */
+function redirectToSuccessPage(res, userId) {
+  return res.redirect(`${frontendUrl}/oauth-redirect?userId=${userId}`);
 }
 
 /**
@@ -76,14 +87,14 @@ async function callback(req, res) {
 
       const longToken = await getFacebookLongToken(code);
       const user = await register(longToken);
-      return sendResponse(res, user);
+      return redirectToSuccessPage(res, user._id);
     } catch (err) {
       logger.log(err.message);
       return redirectToErrorPage(res, err.message);
     }
   }
 
-  return sendResponse(res, req.query);
+  return redirectToErrorPage(res, "Failed to connect with facebook");
 }
 
 /**
@@ -97,7 +108,7 @@ async function oauth(_req, res) {
   const facebookUrl = `https://www.facebook.com/v12.0/dialog/oauth?client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${OAuthScopes.join(
     ","
   )}`;
-  console.log(facebookUrl);
+
   return res.redirect(facebookUrl);
 }
 
@@ -133,7 +144,19 @@ async function register(userAccessToken) {
   return user.toObject();
 }
 
+/**
+ * Facebook oauth callback end point
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+async function getUserInfo(req, res) {
+  const userId = req.params.userId;
+  const user = await User.findById(userId);
+  return sendResponse(res, user.toObject(), 200);
+}
+
 module.exports = {
   callback,
   oauth,
+  getUserInfo,
 };
