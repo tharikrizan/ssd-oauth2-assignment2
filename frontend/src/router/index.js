@@ -46,7 +46,7 @@ router.beforeEach((to, from, next) => {
 
 function isLoggedIn() {
   const user = LocalStorage.getUser();
-  return user && user.facebookToken;
+  return user && user?.facebookToken;
 }
 
 export default router;

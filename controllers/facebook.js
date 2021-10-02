@@ -5,13 +5,17 @@ const { sendResponse } = require("../utils");
 const logger = require("../services/logger");
 const User = require("../models/user");
 
+require("dotenv").config();
+
 // constants
-const frontendUrl = "http://localhost:8080";
-const redirectUri = "http://localhost:5000/api/v1/facebook/callback";
+const frontendUrl = process.env.FRONTEND_URL || "http://localhost:8080";
+const redirectUri =
+  process.env.REDIRECT_URL || "http://localhost:5000/api/v1/facebook/callback";
 const graphUrl = "https://graph.facebook.com";
 const accessTokenUrl = `${graphUrl}/v12.0/oauth/access_token`;
-const clientId = 3041782756109931;
-const clientSecret = "68a09e0188224a32a6fa9f6c6c2532bf";
+const clientId = process.env.CLIENT_ID || 3041782756109931;
+const clientSecret =
+  process.env.CLIENT_SECRET || "68a09e0188224a32a6fa9f6c6c2532bf";
 
 const OAuthScopes = [
   "email",

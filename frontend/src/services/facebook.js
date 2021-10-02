@@ -1,13 +1,13 @@
 import axios from "axios";
 import LocalStorage from "./storage";
 
-const { facebookToken } = LocalStorage.getUser();
 const graphUrl = "https://graph.facebook.com";
 
 async function getAllPages() {
+  const user = LocalStorage.getUser();
   return await axios.get(`${graphUrl}/me/accounts`, {
     params: {
-      access_token: facebookToken,
+      access_token: user?.facebookToken,
     },
   });
 }
