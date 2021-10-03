@@ -3,7 +3,6 @@
     <b-card
       img-src="https://source.unsplash.com/DfMMzzi3rmg/1600x900"
       img-alt="Image"
-      img-top
       tag="article"
       style="max-width: 100%;"
       class="mb-2"

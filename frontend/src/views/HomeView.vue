@@ -1,18 +1,24 @@
 <template>
-  <div class="home">
-    <h1>My Pages</h1>
-    <div v-if="!pages.length">No pages under your facebook account</div>
+  <div style="height:100%; " class="home">
+    <div v-if="!pages.length" style="width:100%; height:100%; margin:20%;">
+      <h1>No pages under your facebook account</h1>
+    </div>
 
-    <div class="list-container">
+    <div style="width:100%; height:100%; margin:0;" class="list-container">
       <b-card
+        img-src="https://source.unsplash.com/rqnaRQCEVsE/640x798"
+        img-alt="Image"
+        img-left
         bg-variant="dark"
         text-variant="white"
         :title="page.name"
         v-for="page in pages"
         :key="page.id"
+        style="height:100%; margin:1%;"
       >
         <b-card-text> Category: {{ page.category }} </b-card-text>
         <b-button
+          style="margin:1%;"
           @click.prevent="writeMessage(page.id, page.access_token)"
           variant="primary"
         >
@@ -20,6 +26,7 @@
         </b-button>
 
         <b-button
+          style="margin:1%;"
           class="ml-5"
           @click="showDialog(page.id, page.access_token)"
           variant="primary"
@@ -38,7 +45,12 @@
           v-for="post in posts"
           :key="post.id"
         >
-          <b-button @click="delMessage(post.id,selectedPage)" class="mt-3" variant="outline-danger" block>
+          <b-button
+            @click="delMessage(post.id, selectedPage)"
+            class="mt-3"
+            variant="outline-danger"
+            block
+          >
             Delete
           </b-button>
         </b-card>
@@ -107,7 +119,7 @@ export default {
     },
     async delMessage(id, selectedPage) {
       this.$swal({
-        title: "Are you sure?",
+        title: "Are you sure to DELETE POST?",
         text: "You will not be able to undo this action",
         icon: "warning",
         showCancelButton: true,
@@ -117,17 +129,21 @@ export default {
         cancelButtonText: "No",
         showLoaderOnConfirm: true,
         preConfirm: () => {
-          return Facebook.deleteExistingMessage(id, selectedPage).catch((err) => {
-            this.$swal.showValidationMessage(`Failed to delete: ${err.message}`);
-          });
+          return Facebook.deleteExistingMessage(id, selectedPage).catch(
+            (err) => {
+              this.$swal.showValidationMessage(
+                `Failed to delete: ${err.message}`
+              );
+            }
+          );
         },
         allowOutsideClick: () => !this.$swal.isLoading(),
       }).then(() => {
-          this.$swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "Successfully deleted...",
-          });
+        this.$swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Successfully deleted...",
+        });
       });
     },
     async showDialog(id, token) {
