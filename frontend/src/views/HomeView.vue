@@ -127,7 +127,6 @@ export default {
             icon: "success",
             title: "Success",
             text: "Successfully deleted...",
-            // footer: '<a href="">Why do I have this issue?</a>',
           });
       });
     },
