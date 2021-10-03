@@ -38,7 +38,7 @@
           v-for="post in posts"
           :key="post.id"
         >
-          <b-button class="mt-3" variant="outline-danger" block>
+          <b-button @click="delMessage(post.id,selectedPage)" class="mt-3" variant="outline-danger" block>
             Delete
           </b-button>
         </b-card>
@@ -64,6 +64,7 @@ export default {
     return {
       pages: [],
       posts: [],
+      selectedPage: "",
     };
   },
   methods: {
@@ -104,7 +105,34 @@ export default {
         }
       });
     },
+    async delMessage(id, selectedPage) {
+      this.$swal({
+        title: "Are you sure?",
+        text: "You will not be able to undo this action",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#00b894",
+        cancelButtonColor: "#d63031",
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          return Facebook.deleteExistingMessage(id, selectedPage).catch((err) => {
+            this.$swal.showValidationMessage(`Failed to post: ${err.message}`);
+          });
+        },
+        allowOutsideClick: () => !this.$swal.isLoading(),
+      }).then(() => {
+          this.$swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Successfully deleted...",
+            // footer: '<a href="">Why do I have this issue?</a>',
+          });
+      });
+    },
     async showDialog(id, token) {
+      this.selectedPage = token;
       this.$bvModal.show("bv-modal-example");
       this.posts = (await Facebook.getAllPosts(id, token)).data.data;
     },
