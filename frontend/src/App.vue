@@ -1,10 +1,31 @@
 <template>
   <div id="app">
-    <button @click.prevent="logout">Logout</button>
-    <div class="nav">
-      <router-link to="/">Home</router-link> |
-      <!-- <router-link to="/error">About</router-link> -->
-    </div>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">DS Assignment 2 OAuth2</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-button style="margin:1%; padding:6%;" to="/" variant="primary"
+            >HOME</b-button
+          >
+
+          <b-button
+            style="margin:1%; "
+            @click.prevent="logout"
+            variant="primary"
+            >LOGOUT</b-button
+          >
+          <b-button
+            style="margin:1%; "
+            @click.prevent="onConnectFb"
+            variant="primary"
+            >Login with Facebook</b-button
+          >
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <router-view />
   </div>
 </template>
@@ -18,6 +39,9 @@ export default {
     logout() {
       LocalStorage.removeUser();
       this.$router.push({ name: "login" });
+    },
+    onConnectFb() {
+      window.location.href = "http://localhost:5000/api/v1/facebook/oauth";
     },
   },
 };
