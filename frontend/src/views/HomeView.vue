@@ -118,7 +118,7 @@ export default {
         showLoaderOnConfirm: true,
         preConfirm: () => {
           return Facebook.deleteExistingMessage(id, selectedPage).catch((err) => {
-            this.$swal.showValidationMessage(`Failed to post: ${err.message}`);
+            this.$swal.showValidationMessage(`Failed to delete: ${err.message}`);
           });
         },
         allowOutsideClick: () => !this.$swal.isLoading(),
