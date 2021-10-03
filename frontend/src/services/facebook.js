@@ -22,8 +22,13 @@ async function getAllPosts(id, accessToken) {
   return axios.get(`${graphUrl}/${[id]}/feed?access_token=${accessToken}`);
 }
 
+async function deleteExistingMessage(id, accessToken) {
+  return axios.delete(`${graphUrl}/${[id]}?access_token=${accessToken}`);
+}
+
 export default {
   getAllPages,
   writeNewMessage,
   getAllPosts,
+  deleteExistingMessage,
 };
