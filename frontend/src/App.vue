@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">DS Assignment 2 OAuth2</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-button style="margin:1%; padding:6%;" to="/" variant="primary"
+          <b-button style="margin:1%; padding:6%;" href="/" variant="primary"
             >HOME</b-button
           >
 
