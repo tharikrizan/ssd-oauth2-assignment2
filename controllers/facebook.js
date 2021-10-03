@@ -13,9 +13,8 @@ const redirectUri =
   process.env.REDIRECT_URL || "http://localhost:5000/api/v1/facebook/callback";
 const graphUrl = "https://graph.facebook.com";
 const accessTokenUrl = `${graphUrl}/v12.0/oauth/access_token`;
-const clientId = process.env.CLIENT_ID || 3041782756109931;
-const clientSecret =
-  process.env.CLIENT_SECRET || "68a09e0188224a32a6fa9f6c6c2532bf";
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
 
 const OAuthScopes = [
   "email",
